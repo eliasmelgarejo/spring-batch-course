@@ -1,0 +1,70 @@
+debug: true
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: INFO
+#server config
+server:
+  port: 8000
+#spring config
+spring:
+  batch:
+    default-chunk-size: ${SPRING_BATCH_DEFAULT_CHUNK_SIZE:20}
+    default-retry-limit: ${SPRING_BATCH_DEFAULT_RETRY_LIMIT:0}
+    default-skip-limit: ${SPRING_BATCH_DEFAULT_SKIP_LIMIT:100}
+    default-delay: ${SPRING_BATCH_DEFAULT_DELAY:3000}
+    default-retries: ${SPRING_BATCH_DEFAULT_RETRIES:3}
+    default-multiplier: ${SPRING_BATCH_DEFAULT_MULTIPLIER:2}
+    # Inicializar e lschema para Spring Batch. Esto es, crea las tablas que se requieren. always: siempre, never: nunca
+    jdbc:
+      initialize-schema: ALWAYS
+    job:
+      # Los JOBs de Spring Batch no se ejecutan al arrancar Spring
+      enabled: false
+  mvc:
+    async:
+      request-timeout: 120000
+  profiles:
+    active: test
+  output:
+    ansi:
+      enabled: ${SPRING_OUTPUT_ANSI_ENABLED:ALWAYS}
+  application:
+    name: ${SPRING_APPLICATION_NAME:course-spring-batch}
+  datasource:
+    driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/course-spring-batch}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:postgres}
+    type: ${DATASOURCE_TYPE:com.zaxxer.hikari.HikariDataSource}
+    hikari:
+      maximum-pool-size: ${DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:5}
+      minimum-idle: ${DATASOURCE_HIKARI_MINIMUM_IDLE:5}
+      idle-timeout: ${DATASOURCE_HIKARI_IDLE_TIMEOUT:30000}
+      connection-timeout: ${DATASOURCE_HIKARI_CONNECTION_TIMEOUT:20000}
+      pool-name: ${DATASOURCE_HIKARI_POOL_NAME:SpringBootHikariCP}
+      max-lifetime: ${DATASOURCE_HIKARI_MAX_LIFETIME:2000000}
+      connection-test-query: ${DATASOURCE_HIKARI_CONNECTION_TEST_QUERY:SELECT 1}
+      initialization-fail-timeout: ${DATASOURCE_HIKARI_INITIALIZATION_FAIL_TIMEOUT:1}
+      data-source-properties:
+        # Propiedades específicas de la base de datos PostgreSQL
+        socketTimeout: ${DATASOURCE_HIKARI_DATA_SOURCE_PROPERTIES_SOCKET_TIMEOUT:60000}
+        prepareThreshold: ${DATASOURCE_HIKARI_DATA_SOURCE_PROPERTIES_PREPARE_THRESHOLD:100}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:update}
+    properties:
+      hibernate:
+        dialect: ${JPA_DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+        format_sql: ${JPA_PROPERTIES_FORMAT_SQL:true}
+    show-sql: ${JPA_SHOW_SQL:true}
+    database: ${JPA_DATABASE:postgresql}
+    database-platform: ${JPA_DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+  jackson:
+    date-format: ${SPRING_JACKSON_DATE_FORMAT:yyyy-MM-dd HH:mm:ss}
+    time-zone: ${SPRING_JACKSON_TIME_ZONE:America/Asuncion}
+    serialization:
+      FAIL_ON_EMPTY_BEANS: true
+
